@@ -1,4 +1,8 @@
 version: '2'
+networks:
+  mining:
+    name: mining
+    driver: bridge
 services:
   prometheus:
     image: prom/prometheus
@@ -11,8 +15,7 @@ services:
     depends_on:
     - exporter
     networks:
-      back:
-        ipv4_address: 172.18.0.4
+      - mining
     restart: always
 
   grafana:
@@ -27,8 +30,7 @@ services:
     depends_on:
     - prometheus
     networks:
-      back:
-      front:
+     - mining
     restart: always
 
   exporter:
@@ -42,13 +44,7 @@ services:
     restart: always
 
 networks:
-  back:
-    driver: bridge
-    ipam:
-      driver: default
-      config:
-      - subnet: "172.18.0.0/24"
-        gateway: 172.18.0.1
+  - mining
   front:
     driver: bridge
 
