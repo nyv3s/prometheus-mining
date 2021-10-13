@@ -3,6 +3,7 @@ networks:
   mining:
     name: mining
     driver: bridge
+    
 services:
   prometheus:
     image: prom/prometheus
@@ -15,7 +16,7 @@ services:
     depends_on:
     - exporter
     networks:
-      - mining
+    - mining
     restart: always
 
   grafana:
@@ -30,7 +31,7 @@ services:
     depends_on:
     - prometheus
     networks:
-     - mining
+    - mining
     restart: always
 
   exporter:
@@ -42,11 +43,6 @@ services:
     environment:
     - RIGS=${RIGS}
     restart: always
-
-networks:
-  - mining
-  front:
-    driver: bridge
 
 volumes:
   grafana_var_lib:
